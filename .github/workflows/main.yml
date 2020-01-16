@@ -1,0 +1,17 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: start Actions
+      run: echo "Ansible-freeipa IDM_CI"
+    - name: Start Docker Slave
+      run: sudo docker start $(sudo docker ps -a -q | head -n 1)
+    - name: Exec Docker Slave
+      run: sudo docker exec $(sudo docker ps -a -q | head -n 1) /bin/bash -c "sh test_setup.sh"
